@@ -2,7 +2,7 @@ import { Button } from '@tamagui/button';
 import { Text, View, styled } from '@tamagui/core';
 import { Input } from '@tamagui/input';
 import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, Image, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Simple Tamagui styled components
@@ -155,9 +155,95 @@ export default function ChatScreen() {
 
   return (
     <Container>
-      <HeaderCard>
-        <Header>🏀 NBA Room</Header>
-      </HeaderCard>
+      <View 
+        style={{
+          paddingHorizontal: 20,
+          paddingTop: 60,
+          paddingBottom: 20,
+          backgroundColor: '#000000',
+        }}
+      >
+        <View 
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}
+        >
+          <TouchableOpacity 
+            style={{
+              padding: 8,
+            }}
+            activeOpacity={0.7}
+          >
+            <Text style={{ fontSize: 20, color: '#FFFFFF' }}>☰</Text>
+          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image 
+              source={require('../assets/images/prizepicks-logo.png')}
+              style={{
+                width: 32,
+                height: 32,
+                marginRight: 8,
+              }}
+              resizeMode="contain"
+            />
+            <Text 
+              style={{
+                fontSize: 24,
+                fontWeight: 'bold',
+                color: '#FFFFFF',
+                textAlign: 'center',
+              }}
+            >
+              PRIZEPICKS
+            </Text>
+          </View>
+          <View 
+            style={{
+              backgroundColor: '#00D4AA',
+              borderRadius: 20,
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+            }}
+          >
+            <Text 
+              style={{
+                color: '#000000',
+                fontSize: 12,
+                fontWeight: 'bold',
+              }}
+            >
+              LIVE
+            </Text>
+          </View>
+        </View>
+        
+        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+          <Text 
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: '#FFFFFF',
+              textAlign: 'center',
+              marginBottom: 8,
+            }}
+          >
+            🏀 NBA Room
+          </Text>
+          <Text 
+            style={{
+              fontSize: 16,
+              color: '#CCCCCC',
+              textAlign: 'center',
+              fontWeight: '500',
+            }}
+          >
+            Join the community chat
+          </Text>
+        </View>
+      </View>
 
       <FlatList
         data={messages}
