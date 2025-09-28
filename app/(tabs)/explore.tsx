@@ -35,7 +35,7 @@ const Logo = styled(Text, {
 const LogoP = styled(Text, {
   fontSize: 24,
   fontWeight: 'bold',
-  color: '#8B5CF6',
+  color: '#8000FF',
 })
 
 const LiveButton = styled(View, {
@@ -137,7 +137,7 @@ const Avatar = styled(View, {
   width: 40,
   height: 40,
   borderRadius: 20,
-  backgroundColor: '#8B5CF6',
+  backgroundColor: '#8000FF',
   justifyContent: 'center',
   alignItems: 'center',
   marginRight: 10,
@@ -327,7 +327,7 @@ const SmallText = styled(Text, {
 })
 
 const PrimaryCTA = styled(TouchableOpacity, {
-  backgroundColor: '#8B5CF6',
+  backgroundColor: '#8000FF',
   borderRadius: 24,
   paddingVertical: 12,
   paddingHorizontal: 18,
@@ -522,7 +522,7 @@ const InputField = styled(TextInput, {
 })
 
 const SendButton = styled(TouchableOpacity, {
-  backgroundColor: '#8B5CF6',
+  backgroundColor: '#8000FF',
   borderRadius: 20,
   paddingHorizontal: 16,
   paddingVertical: 10,
@@ -627,7 +627,7 @@ export default function FriendsScreen() {
   const injectedChatCSS = `
     :root {
       --bg: #000000; --panel: #0F0F0F; --panel-2: #1A1A1A; --border: #333333;
-      --text: #FFFFFF; --muted: #CCCCCC; --muted-2: #A3A3A3; --pp-green: #00D4AA; --pp-purple: #8B5CF6;
+      --text: #FFFFFF; --muted: #CCCCCC; --muted-2: #A3A3A3; --pp-green: #00D4AA; --pp-purple: #8000FF;
     }
     html, body { background: var(--bg) !important; color: var(--text) !important; }
     body, input, textarea, button { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', Inter, Roboto, 'Helvetica Neue', Arial, sans-serif !important; }
@@ -694,63 +694,26 @@ export default function FriendsScreen() {
                 </LiveButton>
               </TopBar>
           
-          <View alignItems="center">
-            <HeaderTitle>Friends</HeaderTitle>
-            <HeaderSubtitle>Connect with your betting community</HeaderSubtitle>
-          </View>
+          {/* Title removed per spec; header keeps app chrome only */}
         </Header>
       )}
 
       <View style={{ flex: 1 }}>
-        {/* Tab Selector - hidden in chat mode for full-screen DM look */}
+        {/* Tab Selector — show ONLY on Leaderboard. When on Chat, no top UI. */}
         {activeTab === 'leaderboard' && (
-          <View style={{ 
-            flexDirection: 'row', 
-            marginHorizontal: 20, 
-            marginBottom: 16,
-            backgroundColor: '#1A1A1A',
-            borderRadius: 12,
-            padding: 4,
-            borderWidth: 1,
-            borderColor: '#333333'
-          }}>
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                paddingVertical: 12,
-                paddingHorizontal: 16,
-                borderRadius: 8,
-                backgroundColor: activeTab === 'leaderboard' ? '#8B5CF6' : 'transparent',
-                alignItems: 'center'
-              }}
-              onPress={() => setActiveTab('leaderboard')}
-            >
-              <Text style={{ 
-                fontSize: 16, 
-                fontWeight: 'bold', 
-                color: activeTab === 'leaderboard' ? '#FFFFFF' : '#CCCCCC' 
-              }}>
-                Leaderboard
-              </Text>
+          <View style={{ flexDirection: 'row', marginHorizontal: 20, marginBottom: 8, gap: 24 }}>
+            <TouchableOpacity onPress={() => setActiveTab('leaderboard')} activeOpacity={0.8}>
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={{ fontSize: 20, fontWeight: '800', color: activeTab === 'leaderboard' ? '#FFFFFF' : '#7A7A7A' }}>Leaderboard</Text>
+                {activeTab === 'leaderboard' && (
+                  <View style={{ height: 6, backgroundColor: '#8000FF', borderRadius: 999, marginTop: 8, width: 120 }} />
+                )}
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                paddingVertical: 12,
-                paddingHorizontal: 16,
-                borderRadius: 8,
-                backgroundColor: activeTab === 'chat' ? '#8B5CF6' : 'transparent',
-                alignItems: 'center'
-              }}
-              onPress={() => setActiveTab('chat')}
-            >
-              <Text style={{ 
-                fontSize: 16, 
-                fontWeight: 'bold', 
-                color: activeTab === 'chat' ? '#FFFFFF' : '#CCCCCC' 
-              }}>
-                Chat
-              </Text>
+            <TouchableOpacity onPress={() => setActiveTab('chat')} activeOpacity={0.8}>
+              <View style={{ alignItems: 'flex-start' }}>
+                <Text style={{ fontSize: 20, fontWeight: '800', color: '#7A7A7A' }}>Chat</Text>
+              </View>
             </TouchableOpacity>
           </View>
         )}
