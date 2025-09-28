@@ -29,7 +29,7 @@ const Logo = styled(Text, {
   fontSize: 24,
   fontWeight: 'bold',
   color: '#FFFFFF',
-  textAlign: 'center',
+  textAlign: 'left',
 })
 
 const LogoP = styled(Text, {
@@ -170,19 +170,6 @@ const HeaderActions = styled(View, {
   gap: 8,
 })
 
-const FollowButton = styled(TouchableOpacity, {
-  backgroundColor: '#262626',
-  borderRadius: 20,
-  paddingVertical: 8,
-  paddingHorizontal: 14,
-  borderWidth: 1,
-  borderColor: '#333333',
-})
-
-const FollowLabel = styled(Text, {
-  color: '#FFFFFF',
-  fontWeight: '700',
-})
 
 const EarningsPill = styled(View, {
   backgroundColor: 'rgba(0,212,170,0.12)',
@@ -700,10 +687,10 @@ export default function FriendsScreen() {
 
       <View style={{ flex: 1 }}>
         {/* Tab Selector — show ONLY on Leaderboard. When on Chat, no top UI. */}
-        {activeTab === 'leaderboard' && (
-          <View style={{ flexDirection: 'row', marginHorizontal: 20, marginBottom: 8, gap: 24 }}>
+{activeTab === 'leaderboard' && (
+          <View style={{ flexDirection: 'row', justifyContent: 'center', marginHorizontal: 20, marginBottom: 8, gap: 32 }}>
             <TouchableOpacity onPress={() => setActiveTab('leaderboard')} activeOpacity={0.8}>
-              <View style={{ alignItems: 'flex-start' }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: '800', color: activeTab === 'leaderboard' ? '#FFFFFF' : '#7A7A7A' }}>Leaderboard</Text>
                 {activeTab === 'leaderboard' && (
                   <View style={{ height: 6, backgroundColor: '#8000FF', borderRadius: 999, marginTop: 8, width: 120 }} />
@@ -711,8 +698,8 @@ export default function FriendsScreen() {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActiveTab('chat')} activeOpacity={0.8}>
-              <View style={{ alignItems: 'flex-start' }}>
-                <Text style={{ fontSize: 20, fontWeight: '800', color: '#7A7A7A' }}>Chat</Text>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontSize: 20, fontWeight: '800', color: activeTab === 'chat' ? '#FFFFFF' : '#7A7A7A' }}>Chat</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -743,12 +730,9 @@ export default function FriendsScreen() {
                         </View>
                       </UserMeta>
                       <HeaderActions>
-                        <EarningsPill>
+<EarningsPill>
                           <EarningsText>{earningStr}</EarningsText>
                         </EarningsPill>
-                        <FollowButton activeOpacity={0.8}>
-                          <FollowLabel>Follow</FollowLabel>
-                        </FollowButton>
                         <Text style={{ color: '#AAAAAA', fontSize: 20 }}>⋯</Text>
                       </HeaderActions>
                     </UserHeader>
@@ -803,11 +787,8 @@ export default function FriendsScreen() {
                       </View>
 
                       {/* Footer actions */}
-                      <FooterRow>
-                        <View style={{ flexDirection: 'row', gap: 8 }}>
-                          <SmallButton activeOpacity={0.8}><SmallText>👍</SmallText></SmallButton>
-                          <SmallButton activeOpacity={0.8}><SmallText>👎</SmallText></SmallButton>
-                        </View>
+<FooterRow>
+                        <View />
                         <PrimaryCTA activeOpacity={0.9}>
                           <PrimaryCTAText>Copy lineup ⎘</PrimaryCTAText>
                         </PrimaryCTA>
@@ -828,7 +809,7 @@ export default function FriendsScreen() {
           ) : (
             /* Chat Tab */
             <View style={{ flex: 1 }}>
-              <View style={{ flex: 1, borderRadius: 0, overflow: 'hidden', paddingTop: insets.top, backgroundColor: '#000000' }}>
+              <View style={{ flex: 1, borderRadius: 0, overflow: 'hidden', paddingTop: insets.top, paddingBottom: 12, backgroundColor: '#000000' }}>
                 <WebView
                   ref={webRef}
                   source={{ uri: resolveWebChatUrl() }}
