@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export type GroupUser = { id: string; name: string };
-export type GroupMessage = { id: string; userId: string; name: string; text: string; ts: number };
+export type GroupMessage = { id: string; userId: string; name: string; text: string; ts: number; fullText?: string; kind?: 'news' | 'poke' | 'agent' | 'user' | string };
 
 type State = {
   users: GroupUser[];

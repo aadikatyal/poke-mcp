@@ -4,6 +4,10 @@ export type GroupMessage = {
   name: string;
   text: string;
   ts: number;
+  // Optional extra data for certain bot messages (e.g., /news full response)
+  fullText?: string;
+  // Optional categorization of message origin/type
+  kind?: 'news' | 'poke' | 'agent' | 'user' | string;
 };
 
 type Client = {

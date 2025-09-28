@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   try {
     if (!apiKey) {
       // No key configured — simulate response so UX works locally
-      botText = `News (simulated): "${query}"`;
+      botText = `News (simulated): \"${query}\"`;
     } else {
       // Prefer the new Search API if caller provided a URL; otherwise use chat/completions which supports web answers
       let res: Response;
@@ -117,12 +117,28 @@ export async function POST(req: NextRequest) {
     botText = 'News request failed.';
   }
 
+  // Prepare a two-line summary for display while preserving full content for long-press
+  function summarizeTwoLines(input: string): string {
+    const clean = String(input || '').replace(/\s+/g, ' ').trim();
+    if (!clean) return '';
+    // Try sentence-based summary first
+    const sentences = clean.split(/(?<=[.!?])\s+/).filter(Boolean);
+    let summary = sentences.slice(0, 2).join(' ');
+    // Fallback/truncate to ~220 chars to roughly fit two lines
+    const MAX = 220;
+    if (summary.length > MAX) summary = summary.slice(0, MAX - 1).trimEnd() + '…';
+    return summary;
+  }
+  const summaryText = summarizeTwoLines(botText);
+
   const botMsg: GroupMessage = {
     id: crypto.randomUUID(),
     userId: 'bot_news',
     name: 'News',
-    text: botText,
+    text: summaryText || botText,
     ts: Date.now(),
+    fullText: botText,
+    kind: 'news',
   };
   hub.messages.push(botMsg);
   if (hub.messages.length > 500) hub.messages.shift();
