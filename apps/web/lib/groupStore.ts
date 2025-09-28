@@ -15,13 +15,13 @@ type State = {
 
 export const useGroupStore = create<State>((set, get) => ({
   users: [
-    { id: 'u1', name: 'Vik' },
-    { id: 'u2', name: 'Aadi' },
-    { id: 'u3', name: 'Kat' },
-    { id: 'bot_poke', name: 'Poke' },
-    { id: 'bot_agent', name: 'Agent' },
+    { id: 'pranav', name: 'Pranav' },
+    { id: 'satvik', name: 'Satvik' },
+    { id: 'aadi', name: 'Aadi' },
+    { id: 'harish', name: 'Harish' },
+    { id: 'mukesh', name: 'Mukesh' },
   ],
-  currentUser: { id: 'u1', name: 'Vik' },
+  currentUser: { id: 'pranav', name: 'Pranav' },
   messages: [],
   connected: false,
   connect: () => {

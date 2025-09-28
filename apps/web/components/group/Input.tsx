@@ -27,9 +27,25 @@ export default function GroupInput() {
         placeholder="Type a message..."
         className="w-full bg-transparent outline-none resize-none min-h-12 max-h-48 text-sm placeholder:text-pp-subt p-2"
       />
-      <div className="flex justify-end">
-        <button onClick={submit} className="px-3 py-1.5 text-sm rounded-md bg-pp-purple text-white hover:opacity-90">
-          Send
+      <div className="flex justify-end pr-1 pb-1">
+        <button
+          onClick={submit}
+          aria-label="Send message"
+          className="w-10 h-10 rounded-full bg-pp-purple text-white flex items-center justify-center hover:opacity-90 shadow-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-5 h-5 -rotate-45"
+          >
+            <path d="M22 2L11 13" />
+            <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+          </svg>
         </button>
       </div>
     </div>

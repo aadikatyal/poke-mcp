@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useGroupStore } from '../../lib/groupStore';
 
-export default function UserSelector() {
+export default function UserSelector({ compact = false }: { compact?: boolean }) {
   const users = useGroupStore((s) => s.users);
   const current = useGroupStore((s) => s.currentUser);
   const setCurrentUser = useGroupStore((s) => s.setCurrentUser);
@@ -20,11 +20,15 @@ export default function UserSelector() {
 
   return (
     <div className="flex items-center gap-2">
-      <label className="text-xs text-pp-subt">User</label>
+      {!compact && <label className="text-xs text-pp-subt">User</label>}
       <select
+        aria-label="Current user"
         value={current.id}
         onChange={(e) => setCurrentUser(e.target.value)}
-        className="bg-pp-card border border-pp-border text-sm rounded-md px-2 py-1 focus:outline-none">
+        className={compact
+          ? "bg-pp-card border border-pp-border text-xs rounded-md px-2 py-1 focus:outline-none"
+          : "bg-pp-card border border-pp-border text-sm rounded-md px-2 py-1 focus:outline-none"}
+      >
         {users.map((u) => (
           <option key={u.id} value={u.id}>{u.name}</option>
         ))}
