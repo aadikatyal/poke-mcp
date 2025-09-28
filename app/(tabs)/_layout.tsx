@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -32,17 +32,22 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <IconSymbol size={28} name="house.fill" color={color} />
+            </View>
+          ),
+          tabBarLabel: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color, fontSize: 12, fontWeight: '700' }}>Home</Text>
               {focused && (
                 <View
                   style={{
-                    width: 44,
+                    marginTop: 6,
+                    width: 56,
                     height: 6,
                     backgroundColor: '#8000FF',
                     borderRadius: 999,
-                    marginTop: 6,
                   }}
                 />
               )}
@@ -54,17 +59,22 @@ export default function TabLayout() {
         name="feed"
         options={{
           title: 'Feed',
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <IconSymbol size={28} name="list.bullet" color={color} />
+            </View>
+          ),
+          tabBarLabel: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color, fontSize: 12, fontWeight: '700' }}>Feed</Text>
               {focused && (
                 <View
                   style={{
-                    width: 44,
+                    marginTop: 6,
+                    width: 56,
                     height: 6,
                     backgroundColor: '#8000FF',
                     borderRadius: 999,
-                    marginTop: 6,
                   }}
                 />
               )}
@@ -76,17 +86,22 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: 'Friends',
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <IconSymbol size={28} name="person.2.fill" color={color} />
+            </View>
+          ),
+          tabBarLabel: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ color, fontSize: 12, fontWeight: '700' }}>Friends</Text>
               {focused && (
                 <View
                   style={{
-                    width: 44,
+                    marginTop: 6,
+                    width: 56,
                     height: 6,
                     backgroundColor: '#8000FF',
                     borderRadius: 999,
-                    marginTop: 6,
                   }}
                 />
               )}
