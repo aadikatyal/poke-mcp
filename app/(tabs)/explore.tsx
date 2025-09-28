@@ -798,13 +798,6 @@ export default function FriendsScreen() {
                 );
               })}
 
-              {/* Group winnings summary */}
-              <FeedCard>
-                <View style={{ alignItems: 'center' }}>
-                  <Text style={{ color: '#CCCCCC', marginBottom: 8, fontWeight: '700' }}>Group Winnings</Text>
-                  <Text style={{ color: '#00D4AA', fontSize: 28, fontWeight: '900' }}>${groupEarnings.toFixed(2)}</Text>
-                </View>
-              </FeedCard>
             </ScrollView>
           ) : (
             /* Chat Tab */
@@ -857,6 +850,31 @@ export default function FriendsScreen() {
           )}
         </View>
       </View>
+      {activeTab === 'leaderboard' && (
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => { /* TODO: navigate to group winnings detail or show modal */ }}
+          style={{
+            position: 'absolute',
+            right: 16,
+            bottom: insets.bottom + 76,
+            backgroundColor: 'rgba(26,26,26,0.95)',
+            borderColor: '#333333',
+            borderWidth: 1,
+            borderRadius: 24,
+            paddingVertical: 10,
+            paddingHorizontal: 14,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.25,
+            shadowRadius: 8,
+            elevation: 4,
+          }}
+        >
+          <Text style={{ color: '#A3A3A3', fontSize: 11, fontWeight: '700' }}>Group Winnings</Text>
+          <Text style={{ color: '#00D4AA', fontSize: 16, fontWeight: '900' }}>${groupEarnings.toFixed(2)}</Text>
+        </TouchableOpacity>
+      )}
     </Container>
   );
 }
