@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { Text, View, styled } from '@tamagui/core';
-import { Image, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // PrizePicks-style components
@@ -163,8 +163,123 @@ const TrophyContainer = styled(View, {
   alignItems: 'center',
 })
 
-export default function LeaderboardScreen() {
+const ChatContainer = styled(View, {
+  flex: 1,
+  backgroundColor: '#0A0A0A',
+  marginHorizontal: 20,
+  borderRadius: 16,
+  padding: 16,
+  borderWidth: 1,
+  borderColor: '#333333',
+})
+
+const ChatHeader = styled(Text, {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#FFFFFF',
+  marginBottom: 16,
+  textAlign: 'center',
+})
+
+const MessageContainer = styled(View, {
+  backgroundColor: '#1A1A1A',
+  marginBottom: 8,
+  borderRadius: 12,
+  borderWidth: 1,
+  borderColor: '#333333',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 12,
+})
+
+const MessageAvatar = styled(View, {
+  width: 32,
+  height: 32,
+  borderRadius: 16,
+  backgroundColor: '#00D4AA',
+  marginRight: 12,
+  justifyContent: 'center',
+  alignItems: 'center',
+})
+
+const AvatarText = styled(Text, {
+  color: '#FFFFFF',
+  fontSize: 14,
+  fontWeight: 'bold',
+})
+
+const MessageContent = styled(View, {
+  flex: 1,
+})
+
+const UserName = styled(Text, {
+  fontSize: 14,
+  fontWeight: 'bold',
+  color: '#FFFFFF',
+  marginBottom: 4,
+})
+
+const MessageText = styled(Text, {
+  fontSize: 14,
+  color: '#CCCCCC',
+})
+
+const ChatInput = styled(View, {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 12,
+  paddingTop: 12,
+  borderTopWidth: 1,
+  borderTopColor: '#333333',
+})
+
+const InputField = styled(TextInput, {
+  flex: 1,
+  backgroundColor: '#1A1A1A',
+  borderRadius: 20,
+  paddingHorizontal: 16,
+  paddingVertical: 10,
+  color: '#FFFFFF',
+  fontSize: 14,
+  borderWidth: 1,
+  borderColor: '#333333',
+})
+
+const SendButton = styled(TouchableOpacity, {
+  backgroundColor: '#8B5CF6',
+  borderRadius: 20,
+  paddingHorizontal: 16,
+  paddingVertical: 10,
+  marginLeft: 8,
+})
+
+const SendText = styled(Text, {
+  color: '#FFFFFF',
+  fontSize: 14,
+  fontWeight: 'bold',
+})
+
+export default function FriendsScreen() {
   const insets = useSafeAreaInsets();
+  const [activeTab, setActiveTab] = useState('leaderboard'); // 'leaderboard' or 'chat'
+  const [messages, setMessages] = useState([
+    { id: 1, user: "Alex Johnson", text: "Anyone betting on the Lakers game tonight?" },
+    { id: 2, user: "Sarah Chen", text: "I'm taking the under on LeBron's points" },
+    { id: 3, user: "Mike Rodriguez", text: "Lakers -7.5 looking good to me" },
+  ]);
+  const [inputText, setInputText] = useState("");
+
+  const sendMessage = () => {
+    if (inputText.trim()) {
+      const newMessage = {
+        id: messages.length + 1,
+        user: "You",
+        text: inputText.trim(),
+      };
+      setMessages([...messages, newMessage]);
+      setInputText("");
+    }
+  };
 
   return (
     <Container>
@@ -198,67 +313,190 @@ export default function LeaderboardScreen() {
             </TopBar>
         
         <View alignItems="center">
-          <HeaderTitle>Leaderboard</HeaderTitle>
-          <HeaderSubtitle>Top performers this week</HeaderSubtitle>
+          <HeaderTitle>Friends</HeaderTitle>
+          <HeaderSubtitle>Connect with your betting community</HeaderSubtitle>
         </View>
       </Header>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Your stats */}
-        <StatsCard>
-          <CardTitle>Your Performance</CardTitle>
-          <StatsRow>
-            <StatItem>
-              <StatNumber>12</StatNumber>
-              <StatLabel>Picks</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>8</StatNumber>
-              <StatLabel>Wins</StatLabel>
-            </StatItem>
-            <StatItem>
-              <StatNumber>66%</StatNumber>
-              <StatLabel>Win Rate</StatLabel>
-            </StatItem>
-          </StatsRow>
-        </StatsCard>
+      <View style={{ flex: 1 }}>
+        {/* Tab Selector */}
+        <View style={{ 
+          flexDirection: 'row', 
+          marginHorizontal: 20, 
+          marginBottom: 16,
+          backgroundColor: '#1A1A1A',
+          borderRadius: 12,
+          padding: 4,
+          borderWidth: 1,
+          borderColor: '#333333'
+        }}>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              paddingVertical: 12,
+              paddingHorizontal: 16,
+              borderRadius: 8,
+              backgroundColor: activeTab === 'leaderboard' ? '#8B5CF6' : 'transparent',
+              alignItems: 'center'
+            }}
+            onPress={() => setActiveTab('leaderboard')}
+          >
+            <Text style={{ 
+              fontSize: 16, 
+              fontWeight: 'bold', 
+              color: activeTab === 'leaderboard' ? '#FFFFFF' : '#CCCCCC' 
+            }}>
+              Leaderboard
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              paddingVertical: 12,
+              paddingHorizontal: 16,
+              borderRadius: 8,
+              backgroundColor: activeTab === 'chat' ? '#8B5CF6' : 'transparent',
+              alignItems: 'center'
+            }}
+            onPress={() => setActiveTab('chat')}
+          >
+            <Text style={{ 
+              fontSize: 16, 
+              fontWeight: 'bold', 
+              color: activeTab === 'chat' ? '#FFFFFF' : '#CCCCCC' 
+            }}>
+              Chat
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Leaderboard */}
-        <LeaderboardSection>
-          <SectionTitle>Weekly Leaders</SectionTitle>
-          
-          {[
-            { rank: 1, name: "BallIsLife23", picks: 45, wins: 32, winRate: "71%" },
-            { rank: 2, name: "HoopsKing", picks: 38, wins: 26, winRate: "68%" },
-            { rank: 3, name: "NBAExpert", picks: 42, wins: 28, winRate: "67%" },
-            { rank: 4, name: "You", picks: 12, wins: 8, winRate: "66%" },
-            { rank: 5, name: "LakerFan99", picks: 35, wins: 22, winRate: "63%" },
-          ].map((player) => (
-            <PlayerCard key={player.rank}>
-              <PlayerRow>
-                <RankContainer>
-                  <Rank>#{player.rank}</Rank>
-                </RankContainer>
-                <PlayerInfo>
-                  <PlayerName>{player.name}</PlayerName>
-                  <PlayerStats>
-                    {player.picks} picks • {player.wins} wins • {player.winRate} win rate
-                  </PlayerStats>
-                </PlayerInfo>
-                <TrophyContainer>
-                  {player.rank <= 3 && (
-                    <Ionicons 
-                      name="star" 
-                      size={24} 
-                      color={player.rank === 1 ? "#FFD700" : player.rank === 2 ? "#C0C0C0" : "#CD7F32"} 
-                    />
-                  )}
-                </TrophyContainer>
-              </PlayerRow>
-            </PlayerCard>
-          ))}
-        </LeaderboardSection>
-      </ScrollView>
+        {/* Content Area */}
+        <View style={{ flex: 1, marginHorizontal: 20 }}>
+          {activeTab === 'leaderboard' ? (
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* Your stats - Compact */}
+              <View style={{ 
+                marginBottom: 16, 
+                backgroundColor: '#1A1A1A', 
+                borderRadius: 12, 
+                padding: 16,
+                borderWidth: 1,
+                borderColor: '#333333'
+              }}>
+                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF', marginBottom: 12, textAlign: 'center' }}>
+                  Your Performance
+                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00D4AA', marginBottom: 4 }}>12</Text>
+                    <Text style={{ fontSize: 12, color: '#CCCCCC', fontWeight: '500' }}>Picks</Text>
+                  </View>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00D4AA', marginBottom: 4 }}>8</Text>
+                    <Text style={{ fontSize: 12, color: '#CCCCCC', fontWeight: '500' }}>Wins</Text>
+                  </View>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#00D4AA', marginBottom: 4 }}>66%</Text>
+                    <Text style={{ fontSize: 12, color: '#CCCCCC', fontWeight: '500' }}>Win Rate</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Friends Leaderboard */}
+              <View style={{ 
+                backgroundColor: '#1A1A1A', 
+                borderRadius: 16, 
+                padding: 16,
+                borderWidth: 1,
+                borderColor: '#333333',
+                marginBottom: 20
+              }}>
+                <SectionTitle>Your Friends</SectionTitle>
+                {[
+                  { rank: 1, name: "Alex Johnson", picks: 45, wins: 32, winRate: "71%", status: "Online" },
+                  { rank: 2, name: "Sarah Chen", picks: 38, wins: 26, winRate: "68%", status: "Online" },
+                  { rank: 3, name: "Mike Rodriguez", picks: 42, wins: 28, winRate: "67%", status: "Offline" },
+                  { rank: 4, name: "You", picks: 12, wins: 8, winRate: "66%", status: "Online" },
+                  { rank: 5, name: "Emma Wilson", picks: 35, wins: 22, winRate: "63%", status: "Online" },
+                  { rank: 6, name: "David Kim", picks: 28, wins: 18, winRate: "64%", status: "Offline" },
+                  { rank: 7, name: "Lisa Park", picks: 31, wins: 20, winRate: "65%", status: "Online" },
+                  { rank: 8, name: "Chris Brown", picks: 22, wins: 14, winRate: "64%", status: "Online" },
+                ].map((friend) => (
+                  <PlayerCard key={friend.rank}>
+                    <PlayerRow>
+                      <RankContainer>
+                        <View 
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: 6,
+                            backgroundColor: friend.status === "Online" ? "#00D4AA" : "#666666",
+                            marginRight: 8,
+                          }}
+                        />
+                      </RankContainer>
+                      <PlayerInfo>
+                        <PlayerName>{friend.name}</PlayerName>
+                        <PlayerStats>
+                          {friend.picks} picks • {friend.wins} wins • {friend.winRate} win rate
+                        </PlayerStats>
+                      </PlayerInfo>
+                      <TrophyContainer>
+                        <Text style={{ fontSize: 12, color: friend.status === "Online" ? "#00D4AA" : "#666666" }}>
+                          {friend.status}
+                        </Text>
+                      </TrophyContainer>
+                    </PlayerRow>
+                  </PlayerCard>
+                ))}
+              </View>
+            </ScrollView>
+          ) : (
+            /* Chat Tab */
+            <View style={{ 
+              flex: 1, 
+              backgroundColor: '#1A1A1A', 
+              borderRadius: 16, 
+              padding: 16,
+              borderWidth: 1,
+              borderColor: '#333333'
+            }}>
+              <ChatHeader>Group Chat</ChatHeader>
+              
+              <FlatList
+                data={messages}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <MessageContainer>
+                    <MessageAvatar>
+                      <AvatarText>{item.user.charAt(0)}</AvatarText>
+                    </MessageAvatar>
+                    <MessageContent>
+                      <UserName>{item.user}</UserName>
+                      <MessageText>{item.text}</MessageText>
+                    </MessageContent>
+                  </MessageContainer>
+                )}
+                style={{ flex: 1, marginBottom: 16 }}
+                showsVerticalScrollIndicator={false}
+              />
+              
+              <ChatInput>
+                <InputField
+                  value={inputText}
+                  onChangeText={setInputText}
+                  placeholder="Type a message..."
+                  placeholderTextColor="#666666"
+                  multiline
+                />
+                <SendButton onPress={sendMessage}>
+                  <SendText>Send</SendText>
+                </SendButton>
+              </ChatInput>
+            </View>
+          )}
+        </View>
+      </View>
     </Container>
   );
 }
