@@ -4,7 +4,7 @@ import { useGroupStore } from '../../lib/groupStore';
 import UserPeek from './UserPeek';
 
 function avatarColor(name: string) {
-  const palette = ['#8B5CF6', '#00D4AA', '#F59E0B', '#60A5FA', '#F97316', '#10B981', '#F472B6'];
+  const palette = ['#8000FF', '#00D4AA', '#F59E0B', '#60A5FA', '#F97316', '#10B981', '#F472B6'];
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) | 0;
   return palette[Math.abs(hash) % palette.length];
