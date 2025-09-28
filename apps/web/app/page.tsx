@@ -13,7 +13,6 @@ export default function Page() {
   useEffect(() => {
     connect();
   }, [connect]);
-
   return (
     <main className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-10 border-b border-pp-border bg-pp-bg/90 backdrop-blur">
