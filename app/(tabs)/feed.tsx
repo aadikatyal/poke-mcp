@@ -240,11 +240,6 @@ export default function FeedScreen() {
             <LiveText>LIVE</LiveText>
           </LiveButton>
         </TopBar>
-        
-        <View alignItems="center">
-          <HeaderTitle>Feed</HeaderTitle>
-          <HeaderSubtitle>See what your friends are betting on</HeaderSubtitle>
-        </View>
       </Header>
 
       <ScrollView showsVerticalScrollIndicator={false}>
