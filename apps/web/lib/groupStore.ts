@@ -97,6 +97,24 @@ export const useGroupStore = create<State>((set, get) => ({
         });
       }
     }
+
+    // Slash command: /news ... routes to the Perplexity-backed news agent
+    if (trimmed.toLowerCase().startsWith('/news')) {
+      const payload = trimmed.replace(/^\/news\s*/i, '');
+      try {
+        await fetch('/api/news', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser.id, name: currentUser.name, text: payload }),
+        });
+      } catch (e) {
+        await fetch('/api/group/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: 'bot_news', name: 'News', text: 'News command failed. Please try again later.' }),
+        });
+      }
+    }
   },
   setCurrentUser: (id: string) => {
     const user = get().users.find((u) => u.id === id);
