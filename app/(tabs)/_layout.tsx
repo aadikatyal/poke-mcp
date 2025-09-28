@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { View } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -11,12 +12,18 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#00D4AA', // PrizePicks green
-        tabBarInactiveTintColor: '#666666', // Grey for inactive
+        // Active icon/label bright white, inactive dimmed
+        tabBarActiveTintColor: '#FFFFFF',
+        tabBarInactiveTintColor: '#B3B3B3',
         tabBarStyle: {
-          backgroundColor: '#1A1A1A', // Dark background
-          borderTopColor: '#333333', // Dark border
+          backgroundColor: '#000000', // Pure black background
+          borderTopColor: '#000000',
           borderTopWidth: 1,
+          height: 64,
+          paddingTop: 6,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
         },
         headerShown: false,
         tabBarButton: HapticTab,
@@ -25,21 +32,66 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <IconSymbol size={28} name="house.fill" color={color} />
+              {focused && (
+                <View
+                  style={{
+                    width: 44,
+                    height: 6,
+                    backgroundColor: '#8000FF',
+                    borderRadius: 999,
+                    marginTop: 6,
+                  }}
+                />
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="feed"
         options={{
           title: 'Feed',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="list.bullet" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <IconSymbol size={28} name="list.bullet" color={color} />
+              {focused && (
+                <View
+                  style={{
+                    width: 44,
+                    height: 6,
+                    backgroundColor: '#8000FF',
+                    borderRadius: 999,
+                    marginTop: 6,
+                  }}
+                />
+              )}
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Friends',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.2.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <IconSymbol size={28} name="person.2.fill" color={color} />
+              {focused && (
+                <View
+                  style={{
+                    width: 44,
+                    height: 6,
+                    backgroundColor: '#8000FF',
+                    borderRadius: 999,
+                    marginTop: 6,
+                  }}
+                />
+              )}
+            </View>
+          ),
         }}
       />
     </Tabs>

@@ -26,9 +26,9 @@ export default function ChatInput() {
           }
         }}
         placeholder="Type a message..."
-        className="flex-1 bg-transparent outline-none resize-none min-h-12 max-h-48 text-sm placeholder:text-pp-subt p-2"
+        className="flex-1 bg-transparent outline-none resize-none min-h-12 max-h-48 text-[16px] md:text-sm placeholder:text-pp-subt p-2"
       />
-      <button onClick={submit} className="px-3 py-2 text-sm rounded-md bg-pp-purple text-white hover:opacity-90 self-end">
+      <button onClick={submit} className="px-3 py-2 text-[16px] md:text-sm rounded-md bg-pp-purple text-white hover:opacity-90 self-end">
         Send
       </button>
     </div>
