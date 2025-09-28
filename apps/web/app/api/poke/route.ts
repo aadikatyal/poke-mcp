@@ -35,9 +35,29 @@ export async function POST(req: NextRequest) {
       // Try to parse JSON; if it fails, show raw text
       try {
         const json = JSON.parse(text);
-        botText = typeof json === 'string' ? json : JSON.stringify(json);
+        if (typeof json === 'string') {
+          botText = json;
+        } else if (json && typeof json === 'object') {
+          const success = (json as any).success ?? (json as any).sucess ?? (json as any).ok;
+          if (success === true) {
+            botText = 'Of course! Placing bet now';
+          } else if (typeof (json as any).message === 'string') {
+            botText = (json as any).message;
+          } else if (typeof (json as any).text === 'string') {
+            botText = (json as any).text;
+          } else {
+            botText = JSON.stringify(json);
+          }
+        } else {
+          botText = String(json);
+        }
       } catch {
-        botText = text || 'Poke responded with no content.';
+        // Not JSON; treat as plain text
+        if (typeof text === 'string' && text.trim().toLowerCase() === 'ok') {
+          botText = 'Of course! Placing bet now';
+        } else {
+          botText = text || 'Poke responded with no content.';
+        }
       }
     }
   } catch (err: any) {

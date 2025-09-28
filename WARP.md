@@ -126,3 +126,57 @@ npm run reset-project
 - Jest and React Native Testing Library for unit tests
 - Detox for E2E testing
 - Prettier for code formatting consistency
+
+## Embedded Web Group Chat (WebView)
+
+The Friends tab now embeds the React web group chat app via a WebView.
+
+- Web app: apps/web (Next.js 15)
+- Dev server: http://localhost:3000 (by default)
+- Mobile integration point: app/(tabs)/explore.tsx → Chat tab renders the WebView
+
+### Running locally (recommended workflow)
+
+Open two terminals:
+
+1) Expo app (iOS/Android/Web)
+
+```bash
+npm run ios     # or: npm run android
+# alternatively: npm start
+```
+
+2) Next.js web chat
+
+```bash
+cd apps/web
+npm run dev     # starts Next.js on http://localhost:3000
+```
+
+Then open the Friends tab → Chat. The WebView should load the web chat automatically.
+
+### How the URL is resolved
+
+The app computes the chat URL at runtime using lib/resolveWebChatUrl.ts. Resolution priority:
+
+1. expo.extra.chatWebUrl (explicit override in app.json)
+2. Dev: derive the LAN host from Metro's scriptURL and use http://<host>:3000
+3. Fallback: http://localhost:3000
+
+To override explicitly, add to app.json:
+
+```json
+{
+  "expo": {
+    "extra": {
+      "chatWebUrl": "http://YOUR_LAN_IP:3000"
+    }
+  }
+}
+```
+
+### Troubleshooting
+- If the WebView is blank: ensure apps/web dev server is running and reachable from the device/simulator
+- On a real device, localhost is the device itself; ensure the URL points to your machine's LAN IP
+- The app attempts to auto-detect the Metro host; if that fails, set expo.extra.chatWebUrl
+- External links clicked inside the chat open in the system browser

@@ -1,7 +1,9 @@
 import { Text, View, styled } from '@tamagui/core';
 import React, { useState } from 'react';
-import { FlatList, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Linking, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { WebView } from 'react-native-webview';
+import { resolveWebChatUrl } from '@/lib/resolveWebChatUrl';
 
 // PrizePicks-style components
 const Container = styled(View, {
@@ -453,46 +455,35 @@ export default function FriendsScreen() {
             </ScrollView>
           ) : (
             /* Chat Tab */
-            <View style={{ 
-              flex: 1, 
-              backgroundColor: '#1A1A1A', 
-              borderRadius: 16, 
-              padding: 16,
-              borderWidth: 1,
-              borderColor: '#333333'
-            }}>
+            <View style={{ flex: 1 }}>
               <ChatHeader>Group Chat</ChatHeader>
-              
-              <FlatList
-                data={messages}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                  <MessageContainer>
-                    <MessageAvatar>
-                      <AvatarText>{item.user.charAt(0)}</AvatarText>
-                    </MessageAvatar>
-                    <MessageContent>
-                      <UserName>{item.user}</UserName>
-                      <MessageText>{item.text}</MessageText>
-                    </MessageContent>
-                  </MessageContainer>
-                )}
-                style={{ flex: 1, marginBottom: 16 }}
-                showsVerticalScrollIndicator={false}
-              />
-              
-              <ChatInput>
-                <InputField
-                  value={inputText}
-                  onChangeText={setInputText}
-                  placeholder="Type a message..."
-                  placeholderTextColor="#666666"
-                  multiline
+              <View style={{ flex: 1, borderRadius: 16, overflow: 'hidden', borderWidth: 1, borderColor: '#333333' }}>
+                <WebView
+                  source={{ uri: resolveWebChatUrl() }}
+                  originWhitelist={["*"]}
+                  startInLoadingState
+                  renderLoading={() => (
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#000000' }}>
+                      <ActivityIndicator size="small" color="#00D4AA" />
+                      <Text style={{ marginTop: 8, color: '#CCCCCC' }}>Loading chat…</Text>
+                    </View>
+                  )}
+                  onShouldStartLoadWithRequest={(req) => {
+                    try {
+                      const chatUrl = resolveWebChatUrl();
+                      const chatOrigin = new URL(chatUrl).origin;
+                      const reqOrigin = new URL(req.url).origin;
+                      if (req.navigationType === 'click' && reqOrigin !== chatOrigin) {
+                        Linking.openURL(req.url);
+                        return false;
+                      }
+                    } catch {}
+                    return true;
+                  }}
+                  allowsInlineMediaPlayback
+                  style={{ backgroundColor: '#000000' }}
                 />
-                <SendButton onPress={sendMessage}>
-                  <SendText>Send</SendText>
-                </SendButton>
-              </ChatInput>
+              </View>
             </View>
           )}
         </View>
