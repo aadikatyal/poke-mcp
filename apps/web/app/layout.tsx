@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Group Chat',
-  description: 'PrizePicks Group Chat (beta) powered by Cedar-style components',
+  description: 'PrizePicks Group Chat powered by Cedar-style components',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
