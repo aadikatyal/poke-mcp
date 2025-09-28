@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export type GroupUser = { id: string; name: string };
-export type GroupMessage = { id: string; userId: string; name: string; text: string; ts: number };
+export type GroupMessage = { id: string; userId: string; name: string; text: string; ts: number; fullText?: string; kind?: 'news' | 'poke' | 'agent' | 'user' | string };
 
 type State = {
   users: GroupUser[];
@@ -94,6 +94,24 @@ export const useGroupStore = create<State>((set, get) => ({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: 'bot_agent', name: 'Agent', text: 'Agent command failed. Please try again later.' }),
+        });
+      }
+    }
+
+    // Slash command: /news ... routes to the Perplexity-backed news agent
+    if (trimmed.toLowerCase().startsWith('/news')) {
+      const payload = trimmed.replace(/^\/news\s*/i, '');
+      try {
+        await fetch('/api/news', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: currentUser.id, name: currentUser.name, text: payload }),
+        });
+      } catch (e) {
+        await fetch('/api/group/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: 'bot_news', name: 'News', text: 'News command failed. Please try again later.' }),
         });
       }
     }
