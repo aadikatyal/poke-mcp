@@ -1,4 +1,4 @@
-# PrizePicks MCP – Expo + Embedded Web Chat
+# DailyFan – Expo + Embedded Web Chat
 
 This repository contains a React Native Expo app with a Friends tab that embeds a React web group chat (Next.js) inside a WebView.
 
